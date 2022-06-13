@@ -1,10 +1,10 @@
-# Getting Started with Create React App and Themis 
+# Getting Started with Create React App and Themis
 
-npm install react-app-rewired --save-dev 
-npm install copy-webpack-plugin --save-dev 
-npm install wasm-themis --save 
+npm install react-app-rewired --save-dev
+npm install copy-webpack-plugin --save-dev
+npm install wasm-themis --save
 
-copy override-config.js from this example to your project.  
+copy override-config.js from this example to your project.
 modify package.json in section scripts:
 ```
 "scripts": {
