@@ -2,7 +2,6 @@ import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Buffer } from 'buffer';
-
 import { initialize, SymmetricKey, SecureCellSeal } from 'wasm-themis';
 
 function App() {
