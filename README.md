@@ -62,7 +62,7 @@ module.exports = function override(config, env) {
     return config;
 }
 ```
-If you need more complex configuration you may read documentation to react-app-rewired: https://github.com/timarney/react-app-rewired
+If you need more complex configuration you may read the documentation to react-app-rewired: https://github.com/timarney/react-app-rewired
 
 Modify package.json in section scripts:
 ```

@@ -6,11 +6,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CWD_PATH = fs.realpathSync(process.cwd());
 const buildPath = process.env.BUILD_PATH || 'build';
 const resolveApp = relativePath => path.resolve(CWD_PATH, relativePath);
-const OUTPUT_PATH = resolveApp(buildPath);
 
-const NODE_MODULES_PATH = path.join(CWD_PATH, 'node_modules');
-const WASM_PATH = path.join(NODE_MODULES_PATH, 'wasm-themis/src/libthemis.wasm');
-const SCRIPTS_PATH = path.join(OUTPUT_PATH, 'static/js/');
+const WASM_PATH = path.join(CWD_PATH, 'node_modules', 'wasm-themis/src/libthemis.wasm');
+const SCRIPTS_PATH = path.join(resolveApp(buildPath), 'static/js/');
 
 module.exports = function override(config, env) {
     if (!config.plugins) {

@@ -17,13 +17,12 @@ function App() {
     // Update the document title using the browser API
     document.title = `Welcome to Themis example React app!`;
     initialize().then(() => {
-      const symKey = new SymmetricKey();
-      // It is safe to store the base64 encoded key in the browser's local storage or in a database.
+      console.log("Themis initialized");
+      const symKey = new SymmetricKey(); // Ready to use symmetric key
+      const symKey64 = Buffer.from(symKey).toString('base64'); // safe to print and store in any storage
       // reverse operation is Uint8Array(Buffer.from(symKey64, 'base64'))
-      const symKey64 = Buffer.from(symKey).toString('base64');
       console.log(symKey64);
       setSymKey(symKey64);
-
       const cell = SecureCellSeal.withKey(symKey);
       const context = new Uint8Array(Buffer.from(contextForThemis));
       const plaintext = new Uint8Array(Buffer.from(helloWorld));
@@ -32,7 +31,6 @@ function App() {
       const decryptedBytes = cell.decrypt(encryptedBytes, context);
       const decryptedStr = Buffer.from(decryptedBytes).toString('utf8')
       setDecrypted(decryptedStr);
-
     }).catch(err => {
       // console.error(err);
       // Themis initialization must be only once.
