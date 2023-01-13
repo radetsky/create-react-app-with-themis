@@ -29,42 +29,52 @@ function App() {
       const encryptedBytes = cell.encrypt(plaintext, context);
       setEncrypted(Buffer.from(encryptedBytes).toString('base64'));
       const decryptedBytes = cell.decrypt(encryptedBytes, context);
-      const decryptedStr = Buffer.from(decryptedBytes).toString('utf8')
+      const decryptedStr = Buffer.from(decryptedBytes).toString('utf8');
       setDecrypted(decryptedStr);
     }).catch(err => {
       // console.error(err);
       // Themis initialization must be only once.
-    })
+    });
   }, []);
 
+  const encryptFile = (event) => {
+    if (event === undefined || event === null) {
+      return;
+    }
+
+    console.log("encryptFile event:", event);
+    const file = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+
+    reader.onload = () => {
+      const bytes = reader.result;
+      console.log("bytes:", bytes);
+      const symKey = new SymmetricKey(); // Ready to use symmetric key
+      const cell = SecureCellSeal.withKey(symKey);
+      const context = new Uint8Array(Buffer.from(contextForThemis));
+      const encryptedBytes = cell.encrypt(bytes, context);
+      console.log("encryptedBytes length:", encryptedBytes.length);
+      const decryptedBytes = cell.decrypt(encryptedBytes, context);
+      console.log("decryptedBytes length:", decryptedBytes.length);
+    };
+
+    reader.onerror = () => {
+      console.log(reader.error);
+    };
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          View <code>src/App.js</code> and <code>README.md</code> to get example how to use Themis with React.
-        </p>
-        <a
-          className="App-link"
-          href="https://docs.cossacklabs.com/themis/languages/wasm/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Themis
-        </a>
-        <p>
-          {symKey ? <>Your symmetric key is: <code>{symKey}</code></> : <>Loading...</>}
-        </p>
-        <p>
-          {encrypted ? <>Your encrypted message is: <code>{encrypted}</code></> : <>Loading...</>}
-        </p>
-        <p>
-          {decrypted ? <>Your decrypted message is: <code>{decrypted}</code></> : <>Loading...</>}
-        </p>
+        <img src={ logo } className="App-logo" alt="logo" />
+        <form>
+          <input name="file" type="file" id="file" onChange={ (event) => { encryptFile(event); } } />
+        </form>
       </header>
     </div>
   );
-}
+};
 
 export default App;
